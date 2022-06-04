@@ -3,9 +3,9 @@ package tech.zerofiltre.freeland.domain;
 public class Amount {
 
   private final float value;
-  private final Currency currency;
+  private final Rate.Currency currency;
 
-  public Amount(float value, Currency currency) {
+  public Amount(float value, Rate.Currency currency) {
     this.value = value;
     this.currency = currency;
   }
@@ -14,7 +14,12 @@ public class Amount {
     return value;
   }
 
-  public Currency getCurrency() {
+  public Rate.Currency getCurrency() {
     return currency;
+  }
+
+  @Override
+  public String toString() {
+    return value+" "+currency;
   }
 }

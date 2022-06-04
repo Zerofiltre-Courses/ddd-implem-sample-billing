@@ -20,6 +20,12 @@ public class Rate {
     return frequency;
   }
 
+  public enum Currency {
+    EUR,
+    USD,
+    XAF
+  }
+
   public enum Frequency {
     DAILY,
     MONTHLY,

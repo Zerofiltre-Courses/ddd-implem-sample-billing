@@ -13,16 +13,15 @@ import org.testcontainers.containers.*;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.*;
 import org.testcontainers.utility.*;
-import tech.zerofiltre.freeland.domain.Currency;
 import tech.zerofiltre.freeland.domain.*;
+import tech.zerofiltre.freeland.domain.agency.*;
 import tech.zerofiltre.freeland.domain.agency.model.*;
-import tech.zerofiltre.freeland.domain.agency.model.useCases.*;
+import tech.zerofiltre.freeland.domain.bill.*;
 import tech.zerofiltre.freeland.domain.bill.model.*;
-import tech.zerofiltre.freeland.domain.bill.useCases.*;
 import tech.zerofiltre.freeland.domain.payment.*;
-import tech.zerofiltre.freeland.domain.payment.useCases.*;
+import tech.zerofiltre.freeland.domain.payment.model.*;
+import tech.zerofiltre.freeland.domain.serviceContract.*;
 import tech.zerofiltre.freeland.domain.serviceContract.model.*;
-import tech.zerofiltre.freeland.domain.serviceContract.useCases.*;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -37,6 +36,11 @@ import static org.mockito.Mockito.*;
 class ServiceContractKafkaListenerIT {
 
 
+    @Container
+    public static KafkaContainer kafka =
+            new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.4.3"));
+    @Autowired
+    KafkaTemplate<String, ServiceContractEvent> kafkaTemplate;
     @MockBean
     private PaymentProvider paymentProvider;
     @MockBean
@@ -45,36 +49,37 @@ class ServiceContractKafkaListenerIT {
     private BillProvider billProvider;
     @MockBean
     private AgencyProvider agencyProvider;
-
-    @Autowired
-    KafkaTemplate<String, ServiceContractEvent> kafkaTemplate;
-
-
-    @Container
-    public static KafkaContainer kafka =
-            new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.4.3"));
     private ServiceContractStarted serviceContractStarted;
 
     @BeforeEach
     void init() {
-        serviceContractStarted = new ServiceContractStarted();
-        serviceContractStarted.setServiceContractNumber(10L);
-        serviceContractStarted.setRateCurrency(Currency.EUR);
-        serviceContractStarted.setRateFrequency(Rate.Frequency.DAILY);
-        serviceContractStarted.setRateValue(700f);
+        serviceContractStarted = new ServiceContractStarted(
+                10L,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                700f,
+                Rate.Frequency.DAILY,
+                Rate.Currency.EUR,
+                0f,
+                null
+        );
     }
 
     @Test
     @DisplayName("On message received, appropriate providers are called")
     void listener() throws InterruptedException {
-        when(paymentProvider.registerPayment(any())).thenReturn(new Payment());
-        when(serviceContractProvider.serviceContractOfId(any())).thenAnswer(invocationOnMock -> {
-            ServiceContract result = new ServiceContract();
-            result.setRate(new Rate(700f, Currency.EUR, Rate.Frequency.DAILY));
-            return Optional.of(result);
-        });
-        when(agencyProvider.agencyOfId(any())).thenReturn(Optional.of(new Agency()));
-        when(billProvider.registerBill(any())).thenReturn(new Bill());
+        when(paymentProvider.registerPayment(any())).thenReturn(Payment.builder().build());
+        when(serviceContractProvider.serviceContractOfId(any())).thenAnswer(invocationOnMock -> Optional.of(
+                ServiceContract.builder()
+                        .rate(new Rate(700f, Rate.Currency.EUR, Rate.Frequency.DAILY))
+                        .build()
+        ));
+        when(agencyProvider.agencyOfId(any())).thenReturn(Optional.of(new Agency(null, null, null)));
+        when(billProvider.registerBill(any())).thenReturn(Bill.builder().build());
 
         kafkaTemplate.send("container-test-topic", serviceContractStarted);
         TimeUnit.MILLISECONDS.sleep(5000);

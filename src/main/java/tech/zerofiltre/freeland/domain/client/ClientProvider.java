@@ -1,4 +1,4 @@
-package tech.zerofiltre.freeland.domain.client.useCases;
+package tech.zerofiltre.freeland.domain.client;
 
 import java.util.Optional;
 import tech.zerofiltre.freeland.domain.client.model.Client;

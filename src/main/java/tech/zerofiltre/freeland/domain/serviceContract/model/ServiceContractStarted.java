@@ -1,19 +1,16 @@
 package tech.zerofiltre.freeland.domain.serviceContract.model;
 
-import java.util.Date;
-import tech.zerofiltre.freeland.domain.Currency;
-import tech.zerofiltre.freeland.domain.Rate.Frequency;
+import tech.zerofiltre.freeland.domain.*;
+
+import java.util.*;
 
 public class ServiceContractStarted extends ServiceContractEvent {
 
-  public ServiceContractStarted() {
-  }
-
-  public ServiceContractStarted(long serviceContractNumber, String clientName, String clientSiren,
-      String freelancerName, String freelancerSiren, String agencyName, String agencySiren, float rateValue,
-      Frequency rateFrequency,
-      Currency rateCurrency, float serviceFeesRate, Date startDate) {
-    super(serviceContractNumber, clientName, clientSiren, freelancerName, freelancerSiren, agencyName, agencySiren,
-        rateValue, rateFrequency, rateCurrency, serviceFeesRate, startDate);
-  }
+    public ServiceContractStarted(long serviceContractNumber, String clientName, String clientSiren,
+                                  String freelancerName, String freelancerSiren, String agencyName, String agencySiren, float rateValue,
+                                  Rate.Frequency rateFrequency,
+                                  Rate.Currency rateCurrency, float serviceFeesRate, Date startDate) {
+        super(serviceContractNumber, clientName, clientSiren, freelancerName, freelancerSiren, agencyName, agencySiren,
+                rateValue, rateFrequency, rateCurrency, serviceFeesRate, startDate);
+    }
 }

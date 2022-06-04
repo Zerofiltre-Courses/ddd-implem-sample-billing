@@ -1,37 +1,34 @@
 package tech.zerofiltre.freeland.domain.freelancer.model;
 
-import tech.zerofiltre.freeland.domain.Amount;
-import tech.zerofiltre.freeland.domain.BankInfo;
+import tech.zerofiltre.freeland.domain.*;
 
 public class Freelancer {
 
-  private FreelancerId freelancerId;
-  private BankInfo bankInfo;
-  private Amount salary;
+    private FreelancerId freelancerId;
+    private BankInfo bankInfo;
+    private Amount salary;
 
 
-  public Amount getSalary() {
-    return salary;
-  }
-
-  public void setSalary(Amount salary) {
-    this.salary = salary;
-  }
+    public Amount getSalary() {
+        return salary;
+    }
 
 
-  public FreelancerId getFreelancerId() {
-    return freelancerId;
-  }
+    public FreelancerId getFreelancerId() {
+        return freelancerId;
+    }
 
-  public void setFreelancerId(FreelancerId freelancerId) {
-    this.freelancerId = freelancerId;
-  }
 
-  public BankInfo getBankInfo() {
-    return bankInfo;
-  }
+    public BankInfo getBankInfo() {
+        return bankInfo;
+    }
 
-  public void setBankInfo(BankInfo bankInfo) {
-    this.bankInfo = bankInfo;
-  }
+    @Override
+    public String toString() {
+        return "Freelancer{" +
+                "freelancerId=" + freelancerId +
+                ", bankInfo=" + "****" + bankInfo.getIban().substring(4) +
+                ", salary=" + salary +
+                '}';
+    }
 }

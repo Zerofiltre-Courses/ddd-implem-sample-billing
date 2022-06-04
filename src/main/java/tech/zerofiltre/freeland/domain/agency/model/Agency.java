@@ -9,27 +9,24 @@ public class Agency {
   private BankInfo bankInfo;
   private Address address;
 
+  public Agency(AgencyId agencyId, BankInfo bankInfo, Address address) {
+    this.agencyId = agencyId;
+    this.bankInfo = bankInfo;
+    this.address = address;
+  }
+
   public AgencyId getAgencyId() {
     return agencyId;
   }
 
-  public void setAgencyId(AgencyId agencyId) {
-    this.agencyId = agencyId;
-  }
 
   public BankInfo getBankInfo() {
     return bankInfo;
   }
 
-  public void setBankInfo(BankInfo bankInfo) {
-    this.bankInfo = bankInfo;
-  }
 
   public Address getAddress() {
     return address;
   }
 
-  public void setAddress(Address address) {
-    this.address = address;
-  }
 }

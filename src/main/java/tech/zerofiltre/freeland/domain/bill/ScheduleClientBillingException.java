@@ -1,4 +1,4 @@
-package tech.zerofiltre.freeland.domain.bill.useCases;
+package tech.zerofiltre.freeland.domain.bill;
 
 public class ScheduleClientBillingException extends Exception {
 

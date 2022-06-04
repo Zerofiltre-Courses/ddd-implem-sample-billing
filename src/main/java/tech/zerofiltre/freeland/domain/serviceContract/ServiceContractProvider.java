@@ -1,4 +1,4 @@
-package tech.zerofiltre.freeland.domain.serviceContract.useCases;
+package tech.zerofiltre.freeland.domain.serviceContract;
 
 import java.util.Optional;
 import tech.zerofiltre.freeland.domain.serviceContract.model.ServiceContract;

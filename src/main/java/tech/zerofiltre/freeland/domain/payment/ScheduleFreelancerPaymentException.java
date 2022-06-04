@@ -1,4 +1,4 @@
-package tech.zerofiltre.freeland.domain.payment.useCases;
+package tech.zerofiltre.freeland.domain.payment;
 
 public class ScheduleFreelancerPaymentException extends Exception {
 
